@@ -7,6 +7,7 @@ use Demo\Common\Control;
 class IndexController extends Control {
 
     public function index(){
+        print_r(__CLASS__.'<br/>');
         if (isAjax()){
             $this->ajaxMessage('登录超时。',99);
         }else{

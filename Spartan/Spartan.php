@@ -21,7 +21,7 @@ class Spt {
         set_error_handler('Spt::appError');//用户自定义的错误处理函数
         set_exception_handler('Spt::appException');//用户自己的异常处理方法
         register_shutdown_function('Spt::appShutdown');//脚本执行关闭
-        version_compare(PHP_VERSION,'5.6.0','>') OR die('You need to use version 5.6 or higher.');
+        version_compare(PHP_VERSION,'5.6','<') && die('You need to use version 5.6 or higher.');
         (!isset($_arrConfig['APP_NAME']) || !$_arrConfig['APP_NAME']) && die('You need to configure site\'s variable "APP_NAME".');
         (!isset($_arrConfig['APP_ROOT']) || !$_arrConfig['APP_ROOT']) && $_arrConfig['APP_ROOT'] = 'Application';
         (!isset($_arrConfig['LANG']) || !$_arrConfig['LANG']) && $_arrConfig['LANG'] = 'zh-cn';
@@ -122,7 +122,7 @@ class Spt {
      * @param array $config
      * @return mixed
      */
-    public static function getInstance($className,$config=[]){
+    public static function getInstance($className,$config = []){
         if (!isset(self::$arrInstance[$className])){
             self::$arrInstance[$className] = new $className($config);
         }
@@ -270,7 +270,7 @@ class Spt {
      * @param string $msg
      * @param bool $end
      */
-    public static function showTip($msg='',$end = false){
+    public static function console($msg='',$end = false){
         print_r('+++++++++++++++++++++++++++++++++++++'.PHP_EOL);
         print_r($msg);
         print_r('+++++++++++++++++++++++++++++++++++++'.PHP_EOL);
@@ -289,13 +289,13 @@ class Spt {
      * 启动运行一个服务
      */
     private static function runServer(){
-        !IS_CLI && self::showTip('Service only run in cli model.',true);
+        !IS_CLI && self::console('Service only run in cli model.',true);
         (!isset(self::$arrConfig['MAIN_FUN']) || !self::$arrConfig['MAIN_FUN']) && self::$arrConfig['MAIN_FUN'] = 'runMain';
         $strClass = APP_NAME . '\\Controller\\MainController';//入口类
-        !class_exists($strClass,true) && self::showTip($strClass.' not exist.',true);
+        !class_exists($strClass,true) && self::console($strClass.' not exist.',true);
         $objClass = new $strClass();
-        !class_exists($strClass,true) && self::showTip($strClass.' not exist.',true);
-        !method_exists($objClass,self::$arrConfig['MAIN_FUN']) && self::showTip("{$strClass}'s main function[".self::$arrConfig['MAIN_FUN']."] don't exits.",true);
+        !class_exists($strClass,true) && self::console($strClass.' not exist.',true);
+        !method_exists($objClass,self::$arrConfig['MAIN_FUN']) && self::console("{$strClass}'s main function[".self::$arrConfig['MAIN_FUN']."] don't exits.",true);
         $objClass->{self::$arrConfig['MAIN_FUN']}();//入口函数
     }
 

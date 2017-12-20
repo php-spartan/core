@@ -1,6 +1,6 @@
 <?php
 namespace Demo\Common;
-use Spartan\Core\Controller\Controller;
+use Spartan\Core\Controller;
 
 !defined('APP_PATH') && exit('404 Not Found');
 /**
