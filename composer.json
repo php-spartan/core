@@ -1,7 +1,7 @@
 {
     "name": "spartan/core",
     "description": "the php common framework",
-    "type": "project",
+    "type": "library",
     "keywords": [
         "framework",
         "spartan",
