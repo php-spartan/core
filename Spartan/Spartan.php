@@ -1,5 +1,5 @@
 <?php
-define('IS_CLI',PHP_SAPI=='cli'?true:false);//模式
+define('IS_CLI',PHP_SAPI=='cli');//模式
 define('NS',DIRECTORY_SEPARATOR);//标准分隔符
 define('CLASS_EXT','.class.php');//设置类的后缀名
 define('FRAME_PATH',__DIR__.NS);//设置框架路径
@@ -22,18 +22,18 @@ class Spt {
         set_exception_handler('Spt::appException');//用户自己的异常处理方法
         register_shutdown_function('Spt::appShutdown');//脚本执行关闭
         version_compare(PHP_VERSION,'5.6','<') && die('You need to use version 5.6 or higher.');
+        !defined('APP_ROOT') && die('You need to defined "APP_ROOT" of you site root directory.');
+        substr(APP_ROOT,-1) != NS && die('"APP_ROOT" needs a band "'.NS.'" to end.');
         (!isset($_arrConfig['APP_NAME']) || !$_arrConfig['APP_NAME']) && die('You need to configure site\'s variable "APP_NAME".');
-        (!isset($_arrConfig['APP_ROOT']) || !$_arrConfig['APP_ROOT']) && $_arrConfig['APP_ROOT'] = 'Application';
         (!isset($_arrConfig['LANG']) || !$_arrConfig['LANG']) && $_arrConfig['LANG'] = 'zh-cn';
         (!isset($_arrConfig['TIME_ZONE']) || !$_arrConfig['TIME_ZONE']) && $_arrConfig['TIME_ZONE'] = 'PRC';
         define('APP_NAME',ucfirst(strtolower($_arrConfig['APP_NAME'])));//项目名称
-        define('APP_ROOT',dirname(__DIR__).NS.$_arrConfig['APP_ROOT'].NS);//根目录
-        define('APP_PATH',APP_ROOT.$_arrConfig['APP_NAME'].NS);//APP的根目录
+        define('APP_PATH',APP_ROOT.APP_NAME.NS);//APP的根目录
         date_default_timezone_set($_arrConfig['TIME_ZONE']);//设置系统时区
         define('HOST',$_arrConfig['HOST']);//完整域名
         define('DOMAIN',$_arrConfig['DOMAIN']);//域名段
         self::$arrConfig = $_arrConfig;//全局化当前配置
-        !self::$arrConfig['DEBUG'] && self::createAppDir(); //检测并创建目录
+        self::$arrConfig['DEBUG'] && self::createAppDir(); //检测并创建目录
         self::loadApp();
         if (self::$arrConfig['SERVER']){
             self::runServer();
