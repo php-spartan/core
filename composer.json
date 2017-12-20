@@ -1,5 +1,5 @@
 {
-    "name": "php-spartan/spartan",
+    "name": "spartan/core",
     "description": "the php common framework",
     "type": "project",
     "keywords": [
@@ -7,7 +7,7 @@
         "spartan",
         "ORM"
     ],
-    "homepage": "https://github.com/php-spartan/core",
+    "homepage": "https://github.com/php-spartan/spartan",
     "license": "MIT License",
     "authors": [
         {
