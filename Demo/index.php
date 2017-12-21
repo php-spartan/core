@@ -1,9 +1,9 @@
 <?php
 require('../Spartan/Spartan.php');
-define('APP_ROOT',dirname(__DIR__).DIRECTORY_SEPARATOR.'Application');//项目根目录
 Spt::start(
     Array(
-        'APP_NAME'=>'DEMO',//项目名称
+        'APP_NAME'=>'DEMO',//项目目录名称
+		'APP_ROOT'=>dirname(__DIR__).DIRECTORY_SEPARATOR.'Application',//项目根目录
         'HOST'=>'',//主机名
         'DOMAIN'=>'',//域名
         'DEBUG'=>true,//调试模式
